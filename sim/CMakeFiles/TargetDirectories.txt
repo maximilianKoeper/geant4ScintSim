@@ -1,0 +1,3 @@
+/home/user/shared_data/geant4ScintSim/sim/CMakeFiles/Sim.dir
+/home/user/shared_data/geant4ScintSim/sim/CMakeFiles/edit_cache.dir
+/home/user/shared_data/geant4ScintSim/sim/CMakeFiles/rebuild_cache.dir
