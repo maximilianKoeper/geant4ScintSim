@@ -62,8 +62,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // Envelope parameters
   //
-  G4double env_sizeXY = 50*cm, env_sizeZ = 50*cm;
-  G4Material* env_mat = nist->FindOrBuildMaterial("G4_WATER");
+  G4double env_sizeXY = 100*cm, env_sizeZ = 50*cm;
+  G4Material* env_mat = nist->FindOrBuildMaterial("G4_AIR");
 
   // Option to switch on/off checking of volumes overlaps
   //
@@ -119,28 +119,31 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // Shape 1
   //
-  G4Material* shape1_mat = nist->FindOrBuildMaterial("G4_Si");
+
+  float density = 3.67*g/cm3;
+  G4Material* NaI = new G4Material("NaI", density, 2);
+  NaI->AddElement(nist->FindOrBuildElement(11), 1);
+  NaI->AddElement(nist->FindOrBuildElement(53), 1);
+
+  //G4Material* shape1_mat = NaI;//nist->FindOrBuildMaterial("G4_NaI");
   G4ThreeVector pos1 = G4ThreeVector(0, -1*cm, 7*cm);
 
   // Trapezoid shape
   // changed to box shape
   G4VSolid* solidShape1 =
-    new G4Box("Shape1",           //its name
-                        //solidShape1,         //its solid
-                        //shape1_mat,          //its material
-                        5*cm, 5*cm, 5*cm); //its size
-                        
-  
+    new G4Box("Shape1", 20*cm, 20*cm, 3*cm); //its size
+
+
   G4LogicalVolume* logicShape1 =
     new G4LogicalVolume(solidShape1,         //its solid
-                        shape1_mat,          //its material
+                        NaI,          //its material
                         "Shape1");           //its name
 
   new G4PVPlacement(0,                       //no rotation
                     pos1,                    //at position
                     logicShape1,             //its logical volume
                     "Shape1",                //its name
-                    logicWorld,                //its mother  volume
+                    logicEnv,                //its mother  volume
                     false,                   //no boolean operation
                     0,                       //copy number
                     checkOverlaps);          //overlaps checking
