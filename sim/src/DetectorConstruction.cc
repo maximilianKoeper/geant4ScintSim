@@ -53,7 +53,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   G4Box* solidWorld =
     new G4Box("World",                       //its name
-       0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);     //its size
+       world_sizeXY, world_sizeXY, world_sizeZ);     //its size
 
   G4LogicalVolume* logicWorld =
     new G4LogicalVolume(solidWorld,          //its solid
@@ -74,8 +74,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Envelope
   //
   G4Box* solidEnv =
-    new G4Box("Envelope",                    //its name
-        0.5*env_sizeXY, 0.5*env_sizeXY, 0.5*env_sizeZ); //its size
+  new G4Box("Envelope",                    //its name
+  env_sizeXY, env_sizeXY, env_sizeZ); //its size
 
   G4LogicalVolume* logicEnv =
     new G4LogicalVolume(solidEnv,            //its solid
@@ -95,6 +95,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Shape 1
   //
 
+  // Build Scintilator Material
   float density = 3.67*g/cm3;
   G4Material* NaI = new G4Material("NaI", density, 2);
   NaI->AddElement(nist->FindOrBuildElement(11), 1);
@@ -103,8 +104,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //G4Material* shape1_mat = NaI;//nist->FindOrBuildMaterial("G4_NaI");
   G4ThreeVector pos1 = G4ThreeVector(0, -1*cm, 7*cm);
 
-  // Trapezoid shape
-  // changed to box shape
+  // Box shape
   G4VSolid* solidShape1 =
     new G4Box("Shape1", 20*cm, 20*cm, 3*cm); //its size
 
