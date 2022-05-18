@@ -34,6 +34,10 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #
 add_executable(Sim sim.cc ${sources} ${headers})
 target_link_libraries(Sim ${Geant4_LIBRARIES})
+set_target_properties(Sim PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
+)
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
