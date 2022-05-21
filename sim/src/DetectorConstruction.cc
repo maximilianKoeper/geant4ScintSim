@@ -5,7 +5,6 @@
 #include "DetectorConstruction.hh"
 
 #include "G4RunManager.hh"
-#include "G4NistManager.hh"
 #include "G4Box.hh"
 #include "G4Cons.hh"
 #include "G4Orb.hh"
@@ -14,6 +13,8 @@
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
+
+#include "Materials.hh"
 
 namespace sim
 {
@@ -32,13 +33,13 @@ DetectorConstruction::~DetectorConstruction()
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-  // Get nist material manager
-  G4NistManager* nist = G4NistManager::Instance();
+  // Get custom material manager
+  CustomMaterial & materials = CustomMaterial::Instance();
 
   // Envelope parameters
   //
   G4double env_sizeXY = 100*cm, env_sizeZ = 50*cm;
-  G4Material* env_mat = nist->FindOrBuildMaterial("G4_AIR");
+  G4Material* env_mat = materials.VAKUUM;
 
   // Option to switch on/off checking of volumes overlaps
   //
@@ -49,7 +50,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   G4double world_sizeXY = 1.2*env_sizeXY;
   G4double world_sizeZ  = 1.2*env_sizeZ;
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
+  G4Material* world_mat = materials.VAKUUM;
 
   G4Box* solidWorld =
     new G4Box("World",                       //its name
@@ -92,26 +93,18 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     checkOverlaps);          //overlaps checking
 
   //
-  // Shape 1
+  // Scint Block
   //
-
-  // Build Scintilator Material
-  float density = 3.67*g/cm3;
-  G4Material* NaI = new G4Material("NaI", density, 2);
-  NaI->AddElement(nist->FindOrBuildElement(11), 1);
-  NaI->AddElement(nist->FindOrBuildElement(53), 1);
-
-  //G4Material* shape1_mat = NaI;//nist->FindOrBuildMaterial("G4_NaI");
   G4ThreeVector pos1 = G4ThreeVector(0, -1*cm, 7*cm);
 
   // Box shape
   G4VSolid* solidShape1 =
-    new G4Box("Shape1", 20*cm, 20*cm, 3*cm); //its size
+    new G4Box("Shape1", 24*cm, 24*cm, 15*mm); //its size
 
 
   G4LogicalVolume* logicShape1 =
     new G4LogicalVolume(solidShape1,         //its solid
-                        NaI,          //its material
+                        materials.LYSO,          //its material
                         "Shape1");           //its name
 
   new G4PVPlacement(0,                       //no rotation
