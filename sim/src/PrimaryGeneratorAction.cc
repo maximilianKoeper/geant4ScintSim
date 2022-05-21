@@ -30,7 +30,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   G4ParticleDefinition* particle
     = particleTable->FindParticle(particleName="e-");
   fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
+  //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
   fParticleGun->SetParticleEnergy(20.*MeV);
 }
 
@@ -84,6 +84,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double z0 = -0.5 * envSizeZ;
 
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector((G4UniformRand()-0.5)/3,
+                                                           (G4UniformRand()-0.5)/3,
+                                                           1.));
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }

@@ -14,6 +14,7 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 
+#include "TileDetectorConstruction.hh"
 #include "Materials.hh"
 
 namespace sim
@@ -95,30 +96,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // Scint Block
   //
-  G4ThreeVector pos1 = G4ThreeVector(0, -1*cm, 7*cm);
-
-  // Box shape
-  G4VSolid* solidShape1 =
-    new G4Box("Shape1", 24*cm, 24*cm, 15*mm); //its size
-
-
-  G4LogicalVolume* logicShape1 =
-    new G4LogicalVolume(solidShape1,         //its solid
-                        materials.LYSO,          //its material
-                        "Shape1");           //its name
-
-  new G4PVPlacement(0,                       //no rotation
-                    pos1,                    //at position
-                    logicShape1,             //its logical volume
-                    "Shape1",                //its name
-                    logicEnv,                //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking
-
-  // Set Shape1 as scoring volume
-  //
-  fScoringVolume = logicShape1;
+  auto* TDC = new TileDetectorConstruction(logicEnv);
+  G4VPhysicalVolume* physicalShape1 = TDC->Construct();
+  fScoringVolume = TDC->logicalTileDetector;
 
   //
   //always return the physical World
