@@ -5,6 +5,10 @@
 
 #include "Materials.hh"
 
+#include "G4UserEventAction.hh"
+#include "G4SystemOfUnits.hh"
+
+
 CustomMaterial* CustomMaterial::instance = nullptr;
 
 CustomMaterial::CustomMaterial() {

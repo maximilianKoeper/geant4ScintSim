@@ -2,14 +2,13 @@
  * Materials.hh
  */
 
-#ifndef EventAction_h
-#define EventAction_h 1
+#ifndef CustomMaterials_h
+#define CustomMaterials_h 1
 
-#include "G4UserEventAction.hh"
-#include "G4SystemOfUnits.hh"
 #include "G4NistManager.hh"
 
-/// Event action class
+///
+/// Custom materials class
 ///
 
 

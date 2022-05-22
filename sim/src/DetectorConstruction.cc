@@ -96,9 +96,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // Scint Block
   //
-  auto* TDC = new TileDetectorConstruction(logicEnv);
-  G4VPhysicalVolume* physicalShape1 = TDC->Construct();
-  fScoringVolume = TDC->logicalTileDetector;
+  //auto* TDC = new TileDetectorConstruction(logicEnv);
+  G4VPhysicalVolume* physicalDetector1 = TileDetectorConstruction(logicEnv).Construct();
+  //fScoringVolume = TDC->logicalTileDetector;
 
   //
   //always return the physical World

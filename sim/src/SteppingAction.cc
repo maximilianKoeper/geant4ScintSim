@@ -29,22 +29,16 @@ SteppingAction::~SteppingAction()
 
 void SteppingAction::UserSteppingAction(const G4Step* step)
 {
-  if (!fScoringVolume) {
-    const DetectorConstruction* detConstruction
-      = static_cast<const DetectorConstruction*>
-        (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-    fScoringVolume = detConstruction->GetScoringVolume();
-  }
-
   // get volume of the current step
-  //G4LogicalVolume* volume
-  //  = step->GetPreStepPoint()->GetTouchableHandle()
-  //    ->GetVolume()->GetLogicalVolume();
+  G4LogicalVolume* volume
+    = step->GetPreStepPoint()->GetTouchableHandle()
+      ->GetVolume()->GetLogicalVolume();
 
   // check if we are in scoring volume
-  if (fScoringVolume->GetName() != "logicalTileDetector") {
+  if (volume->GetName() != "TileEnvelope") {
     return;
   }
+  //G4cout << G4BestUnit(volume->GetSolid()->GetCubicVolume(), "Volume") << G4endl;
   // collect energy deposited in this step
   G4double edepStep = step->GetTotalEnergyDeposit();
   fEventAction->AddEdep(edepStep);
