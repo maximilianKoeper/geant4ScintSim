@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 cmake_minimum_required(VERSION 3.16)
-project(geant4ScintSim)
+project(geant4ScintSim VERSION 0.1 LANGUAGES CXX)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -47,7 +47,6 @@ set_target_properties(Sim PROPERTIES
 set(SIM_SCRIPTS
   init_vis.mac
   run1.mac
-  run2.mac
   vis.mac
   )
 
