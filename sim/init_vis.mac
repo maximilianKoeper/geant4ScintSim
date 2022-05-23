@@ -1,5 +1,4 @@
-# Macro file for the initialization of example B1
-# in interactive session
+# Macro file for the initialization in interactive session
 #
 # Set some default verbose
 /control/verbose 2
