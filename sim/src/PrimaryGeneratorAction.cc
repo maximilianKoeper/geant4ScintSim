@@ -31,7 +31,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
     = particleTable->FindParticle(particleName="e-");
   fParticleGun->SetParticleDefinition(particle);
   //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(20.*MeV);
+  fParticleGun->SetParticleEnergy(2.*GeV);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

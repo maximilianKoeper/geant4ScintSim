@@ -21,14 +21,14 @@ TileDetectorConstruction::TileDetectorConstruction(G4LogicalVolume * _mother){
   mother=_mother;
 }
 
-TileDetectorConstruction::~TileDetectorConstruction() {}
+TileDetectorConstruction::~TileDetectorConstruction() {};
 
 G4VPhysicalVolume* TileDetectorConstruction::Construct(){
 
   // Get custom material manager
   CustomMaterial & materials = CustomMaterial::Instance();
 
-  G4bool checkOverlaps = true;
+  G4bool checkOverlaps = false;
 
   // geometry variables
   G4int    nTilesX             = 80;
@@ -102,4 +102,4 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   }
 
   return physicalTileDetector;
-}
+};

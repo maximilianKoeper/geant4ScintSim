@@ -17,18 +17,21 @@
 #include "TileDetectorConstruction.hh"
 #include "Materials.hh"
 
+#include "G4SDManager.hh"
+#include "SDTile.hh"
+
 namespace sim
 {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction()
-{}
+{};
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::~DetectorConstruction()
-{}
+{};
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -79,14 +82,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4Box("Envelope",                    //its name
   env_sizeXY, env_sizeXY, env_sizeZ); //its size
 
-  G4LogicalVolume* logicEnv =
+  logicDetector =
     new G4LogicalVolume(solidEnv,            //its solid
                         env_mat,             //its material
                         "Envelope");         //its name
 
   new G4PVPlacement(0,                       //no rotation
                     G4ThreeVector(),         //at (0,0,0)
-                    logicEnv,                //its logical volume
+                    logicDetector,                //its logical volume
                     "Envelope",              //its name
                     logicWorld,              //its mother  volume
                     false,                   //no boolean operation
@@ -96,16 +99,24 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // Scint Block
   //
-  //auto* TDC = new TileDetectorConstruction(logicEnv);
-  G4VPhysicalVolume* physicalDetector1 = TileDetectorConstruction(logicEnv).Construct();
-  //fScoringVolume = TDC->logicalTileDetector;
+  auto* TDC = new TileDetectorConstruction(logicDetector);
+  physicalDetector1 = TDC->Construct();
+  Tiles = TDC->logicalTiles;
 
   //
   //always return the physical World
   //
   return physWorld;
-}
+};
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::ConstructSDandField(){
+
+  SDTile* sdtile = new SDTile("SDTile");
+  G4SDManager::GetSDMpointer()->AddNewDetector(sdtile);
+  G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
+  Tiles->SetSensitiveDetector(sdtile);
+}
 
 }

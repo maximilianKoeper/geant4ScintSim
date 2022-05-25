@@ -27,12 +27,12 @@ class TileDetectorConstruction {
       virtual G4VPhysicalVolume* Construct();
 
       G4LogicalVolume * logicalTileDetector;
+      G4LogicalVolume * logicalTiles;
 
   protected:
       /// The tile detector logical volume
 
       /// The logical volume of the tiles
-      G4LogicalVolume * logicalTiles;
 
       G4LogicalVolume * mother;
 };

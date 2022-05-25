@@ -11,7 +11,6 @@
 /// Custom materials class
 ///
 
-
 class CustomMaterial {
 
   private:
