@@ -20,10 +20,11 @@ class SDTile : public G4VSensitiveDetector{
 
     virtual G4bool ProcessHits(G4Step *, G4TouchableHistory *) override;
 
-    //virtual void EndOfEvent(G4HCofThisEvent*);
+    virtual void EndOfEvent(G4HCofThisEvent*) override;
 
   private:
     G4int collectionID;
+    G4double edep_acc = 0.;
 
 };
 
