@@ -5,8 +5,9 @@
 #ifndef CustomMaterials_h
 #define CustomMaterials_h 1
 
-#include "G4NistManager.hh"
+#include "globals.hh"
 
+class G4Material;
 ///
 /// Custom materials class
 ///
@@ -42,6 +43,9 @@ class CustomMaterial {
 
     G4Material* LYSO;
     G4Material* VAKUUM;
+    G4Material* SI;
+    G4Material* PCB_FR4;
+    G4Material* WOLFRAM;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

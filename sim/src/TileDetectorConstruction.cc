@@ -39,6 +39,12 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   G4double TileGapX            = 0.01*mm;
   G4double TileGapY            = 0.01*mm;
 
+  G4double SipmX          = 2*mm;
+  G4double SipmY          = 2*mm;
+  G4double SipmZ          = 0.8*mm;
+
+  G4double PcbZ           = 2*mm;
+
   G4cout << "\n";
   G4cout << "-------------------------------------------";
   G4cout << "Tile dimension is " << TileDimX << " x " << TileDimY << " x " << TileDimZ << " mm3" << "\n";
@@ -53,20 +59,23 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   //
   //G4ThreeVector pos1 = G4ThreeVector(0, -1*cm, 7*cm);
   G4ThreeVector pos1 = G4ThreeVector(0, 0*cm, 0*cm);
+
   //
   // Logical Tile Detector Envelope
   //
-  G4VSolid* TileDetectorShape =
-   new G4Box("logicalTileDetectorShape", (TileDimX/2+TileGapX) * nTilesX + TileGapX, (TileDimY/2+TileGapY) * nTilesY + TileGapY, TileDimZ/2); //its size
+  G4double dimX = (TileDimX/2+TileGapX) * (nTilesX+0.5);
+  G4double dimY = (TileDimY/2+TileGapY) * (nTilesY+0.5);
+  G4double dimZ =  (TileDimZ+SipmZ+PcbZ)/2;
+  G4VSolid* TileDetectorShape = new G4Box("logicalTileDetectorShape", dimX, dimY, dimZ); //its size
 
   logicalTileDetector = new G4LogicalVolume(TileDetectorShape,         //its solid
                        materials.VAKUUM,          //its material
                        "logicalTileDetector");           //its name
 
-  auto physicalTileDetector = new G4PVPlacement(0,                       //no rotation
+  auto physicalTileDetector = new G4PVPlacement(0,                      //no rotation
                                                 pos1,                   //at position
                                                 logicalTileDetector,    //its logical volume
-                                                "logicalTileDetector",               //its name
+                                                "logicalTileDetector",  //its name
                                                 mother,                 //its mother  volume
                                                 false,                  //no boolean operation
                                                 0,                      //copy number
@@ -87,7 +96,7 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
     for(int j=0; j < nTilesY; j++){
       posCurrent =  G4ThreeVector((TileDimX+TileGapX) * nTilesX/2 - (TileDimX+TileGapX) * (i+0.5),
                                  (TileDimY+TileGapY) * nTilesY/2 - (TileDimY+TileGapY) * (j+0.5),
-                                 0);
+                                 -(SipmZ+PcbZ)/2);
 
       new G4PVPlacement(0,                      //no rotation
                         posCurrent,             //at position
@@ -100,6 +109,49 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
       nTileVolume += 1;
     }
   }
+
+  //
+  //  SIPMs
+  //
+  G4VSolid* SIPMShape = new G4Box("SIPMShape", SipmX/2, SipmY/2, SipmZ/2);
+
+  logicalSIPM = new G4LogicalVolume(SIPMShape, materials.SI, "SIPMLogical");
+
+  posCurrent =  G4ThreeVector(0., 0., 0.);
+  G4int nSIPMVolume = 0;
+  for(int i=0; i < nTilesX; i++){
+    for(int j=0; j < nTilesY; j++){
+      posCurrent =  G4ThreeVector((TileDimX+TileGapX) * nTilesX/2 - (TileDimX+TileGapX) * (i+0.5),
+                                 (TileDimY+TileGapY) * nTilesY/2 - (TileDimY+TileGapY) * (j+0.5),
+                                 dimZ-PcbZ-SipmZ/2);
+
+      new G4PVPlacement(0,                      //no rotation
+                        posCurrent,             //at position
+                        logicalSIPM,           //its logical volume
+                        "SIPM",                 //its name
+                        logicalTileDetector,    //its mother  volume
+                        false,                  //no boolean operation
+                        nSIPMVolume,            //copy number
+                        checkOverlaps);         //overlaps checking
+      nSIPMVolume += 1;
+    }
+  }
+
+  //
+  //  PCB
+  //
+
+  G4VSolid* PCBShape = new G4Box("PCBShape", dimX, dimX, PcbZ/2);
+
+  logicalPCB = new G4LogicalVolume(PCBShape , materials.PCB_FR4, "PCBLogical");
+  new G4PVPlacement(0,                      //no rotation
+                    G4ThreeVector(0., 0., dimZ-PcbZ/2),    //at position
+                    logicalPCB,             //its logical volume
+                    "PCB",                  //its name
+                    logicalTileDetector,    //its mother  volume
+                    false,                  //no boolean operation
+                    0,                      //copy number
+                    checkOverlaps);         //overlaps checking
 
   return physicalTileDetector;
 };

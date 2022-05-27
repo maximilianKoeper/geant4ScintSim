@@ -28,6 +28,8 @@ class TileDetectorConstruction {
 
       G4LogicalVolume * logicalTileDetector;
       G4LogicalVolume * logicalTiles;
+      G4LogicalVolume * logicalPCB;
+      G4LogicalVolume * logicalSIPM;
 
   protected:
       /// The tile detector logical volume
