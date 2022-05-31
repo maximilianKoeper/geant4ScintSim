@@ -1,0 +1,15 @@
+{
+    "sim_options": {
+        "scint_option": 1
+    },
+    
+    "output_options": {
+    	"todo": 0
+    },
+    
+    "log_options": {
+    	"log_level": 0
+    }
+    
+}
+

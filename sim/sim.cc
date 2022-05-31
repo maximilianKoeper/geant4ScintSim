@@ -24,7 +24,10 @@
 
 #include <boost/program_options.hpp>
 
+#include <../utils/json.hpp>
+
 namespace po = boost::program_options;
+using json = nlohmann::json;
 
 using namespace sim;
 
@@ -41,7 +44,7 @@ int main(int argc,char** argv)
         ("help", "produce help message")
         ("vis", "interactive mode")
         ("version", "simulation version information")
-        ("config", po::value< std::vector<std::string> > ()->default_value(std::vector<std::string>(), "../config/config.json"), "input configuration file")
+        ("config", po::value<std::string>(), "input configuration file")
   ;
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -54,6 +57,12 @@ int main(int argc,char** argv)
   if (vm.count("version")) {
     std::cout << VERSION_STR << "\n";
     return 1;
+  }
+  json cfg;
+  if (vm.count("config")) {
+    std::cout << vm["config"].as<std::string>();
+    std::ifstream i(vm["config"].as<std::string>().c_str());
+    i >> cfg;
   }
   // ----------------------------------
 
@@ -83,20 +92,24 @@ int main(int argc,char** argv)
   G4PhysListFactory physListFactory;
   G4VModularPhysicsList* physicsList = physListFactory.GetReferencePhysList("G4EmStandardPhysics_option4");
 
-  G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
-  auto opticalParams               = G4OpticalParameters::Instance();
+  // ----------------------------------
+  // if scint_option is enabled
+  if (cfg["/sim_options/scint_option"_json_pointer].get<int>() == 1) {
+    G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
+    auto opticalParams               = G4OpticalParameters::Instance();
 
-  opticalParams->SetWLSTimeProfile("delta");
+    opticalParams->SetWLSTimeProfile("delta");
 
-  opticalParams->SetScintTrackSecondariesFirst(true);
+    opticalParams->SetScintTrackSecondariesFirst(true);
 
-  opticalParams->SetCerenkovMaxPhotonsPerStep(100);
-  opticalParams->SetCerenkovMaxBetaChange(10.0);
-  opticalParams->SetCerenkovTrackSecondariesFirst(true);
+    opticalParams->SetCerenkovMaxPhotonsPerStep(100);
+    opticalParams->SetCerenkovMaxBetaChange(10.0);
+    opticalParams->SetCerenkovTrackSecondariesFirst(true);
 
-  physicsList->RegisterPhysics(opticalPhysics);
+    physicsList->RegisterPhysics(opticalPhysics);
+  }
   runManager->SetUserInitialization(physicsList);
-
+  // ----------------------------------
 
   // TODO: check for correct physics list
   //G4PhysListFactory physListFactory;
