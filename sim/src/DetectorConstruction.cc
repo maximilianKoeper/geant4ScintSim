@@ -113,10 +113,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 void DetectorConstruction::ConstructSDandField(){
 
-  SDTile* sdtile = new SDTile("SDTile");
-  G4SDManager::GetSDMpointer()->AddNewDetector(sdtile);
-  G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
-  Tiles->SetSensitiveDetector(sdtile);
+  //SDTile* sdtile = new SDTile("SDTile");
+  //G4SDManager::GetSDMpointer()->AddNewDetector(sdtile);
+  //G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
+  //Tiles->SetSensitiveDetector(sdtile);
 }
 
 }

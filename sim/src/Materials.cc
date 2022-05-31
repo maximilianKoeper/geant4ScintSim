@@ -58,6 +58,20 @@ CustomMaterial::CustomMaterial() {
        LYSO->AddElement(nist->FindOrBuildElement(LYSO_elements[index]), LYSO_fractionElements[index]);
     }
 
+    std::vector<G4double> lyso_Energy = {2.8*eV};
+    std::vector<G4double> lyso_SCINT = {1.0};
+    std::vector<G4double> lyso_RIND  = {1.81};
+    std::vector<G4double> lyso_ABSL  = {41.3*cm};
+    lyso_mt = new G4MaterialPropertiesTable();
+    lyso_mt->AddProperty("SCINTILLATIONCOMPONENT1", lyso_Energy, lyso_SCINT);
+    lyso_mt->AddProperty("RINDEX",        lyso_Energy, lyso_RIND);
+    lyso_mt->AddProperty("ABSLENGTH",     lyso_Energy, lyso_ABSL);
+    lyso_mt->AddConstProperty("SCINTILLATIONYIELD", 33200./MeV);
+    lyso_mt->AddConstProperty("RESOLUTIONSCALE", 1.0);
+    lyso_mt->AddConstProperty("SCINTILLATIONTIMECONSTANT1", 41.*ns);
+    lyso_mt->AddConstProperty("SCINTILLATIONYIELD1", 1.0);
+    LYSO->SetMaterialPropertiesTable(lyso_mt);
+
 };
 
 G4Material* CustomMaterial::init(const std::string& name, const G4String& g4name) {

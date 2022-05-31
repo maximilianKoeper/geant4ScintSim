@@ -17,6 +17,11 @@
 
 #include "Randomize.hh"
 
+#include "G4EmStandardPhysics_option4.hh"
+#include "G4OpticalParameters.hh"
+#include "G4OpticalPhysics.hh"
+#include "FTFP_BERT.hh"
+
 using namespace sim;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -46,11 +51,29 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new DetectorConstruction());
 
   // Physics list
-  // TODO: check for correct physics list
   G4PhysListFactory physListFactory;
   G4VModularPhysicsList* physicsList = physListFactory.GetReferencePhysList("G4EmStandardPhysics_option4");
-  physicsList->SetVerboseLevel(1);
+
+  G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
+  auto opticalParams               = G4OpticalParameters::Instance();
+
+  opticalParams->SetWLSTimeProfile("delta");
+
+  opticalParams->SetScintTrackSecondariesFirst(true);
+
+  opticalParams->SetCerenkovMaxPhotonsPerStep(100);
+  opticalParams->SetCerenkovMaxBetaChange(10.0);
+  opticalParams->SetCerenkovTrackSecondariesFirst(true);
+
+  physicsList->RegisterPhysics(opticalPhysics);
   runManager->SetUserInitialization(physicsList);
+
+
+  // TODO: check for correct physics list
+  //G4PhysListFactory physListFactory;
+  //G4VModularPhysicsList* physicsList = physListFactory.GetReferencePhysList("G4EmStandardPhysics_option4");
+  //physicsList->SetVerboseLevel(1);
+  //runManager->SetUserInitialization(physicsList);
 
   // User action initialization
   runManager->SetUserInitialization(new ActionInitialization());

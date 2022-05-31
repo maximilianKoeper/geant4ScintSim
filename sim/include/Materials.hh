@@ -8,6 +8,7 @@
 #include "globals.hh"
 
 class G4Material;
+class G4MaterialPropertiesTable;
 ///
 /// Custom materials class
 ///
@@ -46,6 +47,8 @@ class CustomMaterial {
     G4Material* SI;
     G4Material* PCB_FR4;
     G4Material* WOLFRAM;
+
+    G4MaterialPropertiesTable* lyso_mt;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
