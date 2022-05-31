@@ -36,8 +36,8 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   G4double TileDimX            = 3*mm;
   G4double TileDimY            = 3*mm;
   G4double TileDimZ            = 15*mm;
-  G4double TileGapX            = 0.01*mm;
-  G4double TileGapY            = 0.01*mm;
+  G4double TileGapX            = 0.001*mm;
+  G4double TileGapY            = 0.001*mm;
 
   G4double SipmX          = 2*mm;
   G4double SipmY          = 2*mm;

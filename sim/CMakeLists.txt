@@ -15,6 +15,9 @@ else()
   find_package(Geant4 REQUIRED)
 endif()
 
+find_package( Boost COMPONENTS program_options REQUIRED )
+include_directories( ${Boost_INCLUDE_DIR} )
+
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 # Setup include directory for this project
@@ -33,7 +36,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(Sim sim.cc ${sources} ${headers})
-target_link_libraries(Sim ${Geant4_LIBRARIES})
+target_link_libraries(Sim ${Geant4_LIBRARIES} ${Boost_LIBRARIES})
 set_target_properties(Sim PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON

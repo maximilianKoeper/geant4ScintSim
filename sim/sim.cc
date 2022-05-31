@@ -1,7 +1,7 @@
 /*
  * sim.cc
  */
-
+#define VERSION_STR "Version: V0.1.0"
 
 #include "DetectorConstruction.hh"
 #include "ActionInitialization.hh"
@@ -15,12 +15,16 @@
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
 
-#include "Randomize.hh"
+//#include "Randomize.hh"
 
 #include "G4EmStandardPhysics_option4.hh"
 #include "G4OpticalParameters.hh"
 #include "G4OpticalPhysics.hh"
-#include "FTFP_BERT.hh"
+//#include "FTFP_BERT.hh"
+
+#include <boost/program_options.hpp>
+
+namespace po = boost::program_options;
 
 using namespace sim;
 
@@ -28,10 +32,35 @@ using namespace sim;
 
 int main(int argc,char** argv)
 {
-  // Detect interactive mode (if no arguments) and define UI session
+
+  // ----------------------------------
+  // Set and parse program options
+  // eg. ./Sim --help
+  po::options_description desc("Allowed options");
+    desc.add_options()
+        ("help", "produce help message")
+        ("vis", "interactive mode")
+        ("version", "simulation version information")
+        ("config", po::value< std::vector<std::string> > ()->default_value(std::vector<std::string>(), "../config/config.json"), "input configuration file")
+  ;
+  po::variables_map vm;
+  po::store(po::parse_command_line(argc, argv, desc), vm);
+  po::notify(vm);
+
+  if (vm.count("help")) {
+    std::cout << desc << "\n";
+    return 1;
+  }
+  if (vm.count("version")) {
+    std::cout << VERSION_STR << "\n";
+    return 1;
+  }
+  // ----------------------------------
+
+  // Detect interactive mode and define UI session
   //
   G4UIExecutive* ui = nullptr;
-  if ( argc == 1 ) { ui = new G4UIExecutive(argc, argv); }
+  if (vm.count("vis")) { ui = new G4UIExecutive(argc, argv); }
 
   // Optionally: choose a different Random engine...
   // G4Random::setTheEngine(new CLHEP::MTwistEngine);
