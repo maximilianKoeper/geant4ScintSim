@@ -22,12 +22,14 @@
 #include "G4OpticalPhysics.hh"
 //#include "FTFP_BERT.hh"
 
+#include "SimCfg.hh"
+
 #include <boost/program_options.hpp>
 
-#include <../utils/json.hpp>
+//#include <../utils/json.hpp>
 
 namespace po = boost::program_options;
-using json = nlohmann::json;
+//using json = nlohmann::json;
 
 using namespace sim;
 
@@ -36,7 +38,7 @@ using namespace sim;
 int main(int argc,char** argv)
 {
 
-  // ----------------------------------
+  // -----------------------------------------------------
   // Set and parse program options
   // eg. ./Sim --help
   po::options_description desc("Allowed options");
@@ -58,13 +60,20 @@ int main(int argc,char** argv)
     std::cout << VERSION_STR << "\n";
     return 1;
   }
-  json cfg;
+
+  /////////////////////////
+  // Load configuration file
+  std::string config_filename;
+  // custom config file
   if (vm.count("config")) {
-    std::cout << vm["config"].as<std::string>();
-    std::ifstream i(vm["config"].as<std::string>().c_str());
-    i >> cfg;
+    config_filename = vm["config"].as<std::string>();
   }
-  // ----------------------------------
+  // default config file
+  else {
+    config_filename = "../config/config.json";
+  }
+  SimCfg & config = SimCfg::Instance(config_filename);
+  // -----------------------------------------------------
 
   // Detect interactive mode and define UI session
   //
@@ -94,7 +103,7 @@ int main(int argc,char** argv)
 
   // ----------------------------------
   // if scint_option is enabled
-  if (cfg["/sim_options/scint_option"_json_pointer].get<int>() == 1) {
+  if (config.get("/sim_options/scint_option") == 1) {
     G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
     auto opticalParams               = G4OpticalParameters::Instance();
 

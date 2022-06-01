@@ -16,6 +16,8 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 
+#include "SimCfg.hh"
+
 
 TileDetectorConstruction::TileDetectorConstruction(G4LogicalVolume * _mother){
   mother=_mother;
@@ -28,16 +30,19 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   // Get custom material manager
   CustomMaterial & materials = CustomMaterial::Instance();
 
-  G4bool checkOverlaps = false;
+  // Get config manager
+  SimCfg & config = SimCfg::Instance();
+
+  G4bool checkOverlaps = config.get("/geom_options/checkOverlaps");
 
   // geometry variables
-  G4int    nTilesX             = 80;
-  G4int    nTilesY             = 80;
-  G4double TileDimX            = 3*mm;
-  G4double TileDimY            = 3*mm;
-  G4double TileDimZ            = 15*mm;
-  G4double TileGapX            = 0.001*mm;
-  G4double TileGapY            = 0.001*mm;
+  G4int    nTilesX             = config.get("/geom_options/detector_dimensions/nTilesX");
+  G4int    nTilesY             = config.get("/geom_options/detector_dimensions/nTilesY");
+  G4double TileDimX            = config.get("/geom_options/detector_dimensions/TileDimX")*mm;
+  G4double TileDimY            = config.get("/geom_options/detector_dimensions/TileDimY")*mm;
+  G4double TileDimZ            = config.get("/geom_options/detector_dimensions/TileDimZ")*mm;
+  G4double TileGapX            = config.get("/geom_options/detector_dimensions/TileGapX")*mm;
+  G4double TileGapY            = config.get("/geom_options/detector_dimensions/TileGapY")*mm;
 
   G4double SipmX          = 2*mm;
   G4double SipmY          = 2*mm;

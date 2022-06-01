@@ -1,15 +1,48 @@
 {
     "sim_options": {
-        "scint_option": 1
+        "scint_option": 0
     },
-    
+
+    "geom_options": {
+      "checkOverlaps": 0,
+
+      "detector_dimensions": {
+        "__comment": "units in mm",
+
+        "nTilesX": 80,
+        "nTilesY": 80,
+        "TileDimX": 3,
+        "TileDimY": 3,
+        "TileDimZ": 15,
+        "TileGapX": 0.001,
+        "TileGapY": 0.001,
+
+        "SipmX": 2,
+        "SipmY": 2,
+        "SipmZ": 0.8,
+
+        "PcbZ": 2
+      },
+
+      "particle_gun_options": {
+        "__comment": "units in mm and GeV",
+
+        "momentum": 2,
+        "momentum_dir": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+
+      }
+    },
+
     "output_options": {
     	"todo": 0
     },
-    
+
     "log_options": {
     	"log_level": 0
     }
-    
-}
 
+}
