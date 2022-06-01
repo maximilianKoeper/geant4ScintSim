@@ -14,6 +14,8 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 
+#include "SimCfg.hh"
+
 namespace sim
 {
 
@@ -31,7 +33,8 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
     = particleTable->FindParticle(particleName="e-");
   fParticleGun->SetParticleDefinition(particle);
   //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(2.*GeV);
+  // Get config manager
+  fParticleGun->SetParticleEnergy(SimCfg::Instance().getDouble("/geom_options/particle_gun_options/momentum")*GeV);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

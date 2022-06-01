@@ -1,3 +1,8 @@
+/*
+ * SimCfg.cc
+ */
+
+
 #include "SimCfg.hh"
 #include <fstream>
 
@@ -14,5 +19,13 @@ int SimCfg::get(const std::string& name){
 }
 
 int SimCfg::get(const char *name){
+  return cfg[nlohmann::json::json_pointer(name)].get<int>();
+}
+
+double SimCfg::getDouble(const char *name){
+  return cfg[nlohmann::json::json_pointer(name)].get<double>();
+}
+
+int SimCfg::getInt(const char *name){
   return cfg[nlohmann::json::json_pointer(name)].get<int>();
 }

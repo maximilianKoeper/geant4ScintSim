@@ -32,6 +32,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* physicalDetector1;
     G4LogicalVolume *Tiles;
 
+    G4LogicalVolume * absorber;
+
+
   protected:
     G4LogicalVolume* fScoringVolume = nullptr;
 };

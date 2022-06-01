@@ -20,6 +20,8 @@
 #include "G4SDManager.hh"
 #include "SDTile.hh"
 
+#include "SimCfg.hh"
+
 namespace sim
 {
 
@@ -39,6 +41,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
   // Get custom material manager
   CustomMaterial & materials = CustomMaterial::Instance();
+
+  // Get config manager
+  SimCfg & config = SimCfg::Instance();
 
   // Envelope parameters
   //
@@ -96,6 +101,24 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     0,                       //copy number
                     checkOverlaps);          //overlaps checking
 
+  // Absorber
+  if (config.getInt("/geom_options/absorber_options/present") != 0){
+    G4Box* absorberShape =
+    new G4Box("Absorber",                    //its name
+    env_sizeXY/2, env_sizeXY/2, config.getDouble("/geom_options/absorber_options/dimZ")*mm); //its size
+
+    absorber = new G4LogicalVolume(absorberShape,            //its solid
+                        materials.WOLFRAM,             //its material
+                        "Absorber");         //its name
+    new G4PVPlacement(0,                       //no rotation
+                      G4ThreeVector(0,0,-3*cm),         //at (0,0,0)
+                      absorber,                //its logical volume
+                      "Absorber",              //its name
+                      logicDetector,              //its mother  volume
+                      false,                   //no boolean operation
+                      0,                       //copy number
+                      checkOverlaps);          //overlaps checking
+  }
   //
   // Scint Block
   //
@@ -113,10 +136,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 void DetectorConstruction::ConstructSDandField(){
 
-  //SDTile* sdtile = new SDTile("SDTile");
-  //G4SDManager::GetSDMpointer()->AddNewDetector(sdtile);
-  //G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
-  //Tiles->SetSensitiveDetector(sdtile);
+  SDTile* sdtile = new SDTile("SDTile");
+  G4SDManager::GetSDMpointer()->AddNewDetector(sdtile);
+  G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
+  Tiles->SetSensitiveDetector(sdtile);
 }
 
 }

@@ -17,7 +17,7 @@
 
 //#include "Randomize.hh"
 
-#include "G4EmStandardPhysics_option4.hh"
+//#include "G4EmStandardPhysics_option4.hh"
 #include "G4OpticalParameters.hh"
 #include "G4OpticalPhysics.hh"
 //#include "FTFP_BERT.hh"
@@ -99,7 +99,7 @@ int main(int argc,char** argv)
 
   // Physics list
   G4PhysListFactory physListFactory;
-  G4VModularPhysicsList* physicsList = physListFactory.GetReferencePhysList("G4EmStandardPhysics_option4");
+  G4VModularPhysicsList* physicsList = physListFactory.GetReferencePhysList("FTFP_BERT");
 
   // ----------------------------------
   // if scint_option is enabled

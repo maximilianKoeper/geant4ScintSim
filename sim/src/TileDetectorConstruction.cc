@@ -36,19 +36,19 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   G4bool checkOverlaps = config.get("/geom_options/checkOverlaps");
 
   // geometry variables
-  G4int    nTilesX             = config.get("/geom_options/detector_dimensions/nTilesX");
-  G4int    nTilesY             = config.get("/geom_options/detector_dimensions/nTilesY");
-  G4double TileDimX            = config.get("/geom_options/detector_dimensions/TileDimX")*mm;
-  G4double TileDimY            = config.get("/geom_options/detector_dimensions/TileDimY")*mm;
-  G4double TileDimZ            = config.get("/geom_options/detector_dimensions/TileDimZ")*mm;
-  G4double TileGapX            = config.get("/geom_options/detector_dimensions/TileGapX")*mm;
-  G4double TileGapY            = config.get("/geom_options/detector_dimensions/TileGapY")*mm;
+  G4int    nTilesX             = config.getInt("/geom_options/detector_dimensions/nTilesX");
+  G4int    nTilesY             = config.getInt("/geom_options/detector_dimensions/nTilesY");
+  G4double TileDimX            = config.getDouble("/geom_options/detector_dimensions/TileDimX")*mm;
+  G4double TileDimY            = config.getDouble("/geom_options/detector_dimensions/TileDimY")*mm;
+  G4double TileDimZ            = config.getDouble("/geom_options/detector_dimensions/TileDimZ")*mm;
+  G4double TileGapX            = config.getDouble("/geom_options/detector_dimensions/TileGapX")*mm;
+  G4double TileGapY            = config.getDouble("/geom_options/detector_dimensions/TileGapY")*mm;
 
-  G4double SipmX          = 2*mm;
-  G4double SipmY          = 2*mm;
-  G4double SipmZ          = 0.8*mm;
+  G4double SipmX          = config.getDouble("/geom_options/detector_dimensions/SipmX")*mm;
+  G4double SipmY          = config.getDouble("/geom_options/detector_dimensions/SipmY")*mm;
+  G4double SipmZ          = config.getDouble("/geom_options/detector_dimensions/SipmZ")*mm;
 
-  G4double PcbZ           = 2*mm;
+  G4double PcbZ           = config.getDouble("/geom_options/detector_dimensions/PcbZ")*mm;
 
   G4cout << "\n";
   G4cout << "-------------------------------------------";
@@ -63,7 +63,7 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   // Scint Block
   //
   //G4ThreeVector pos1 = G4ThreeVector(0, -1*cm, 7*cm);
-  G4ThreeVector pos1 = G4ThreeVector(0, 0*cm, 0*cm);
+  G4ThreeVector pos1 = G4ThreeVector(0, 0*cm, 2*cm);
 
   //
   // Logical Tile Detector Envelope

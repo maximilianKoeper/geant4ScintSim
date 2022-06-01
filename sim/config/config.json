@@ -6,6 +6,13 @@
     "geom_options": {
       "checkOverlaps": 0,
 
+      "absorber_options": {
+        "__comment": "units in mm",
+
+        "present": 0,
+        "dimZ": 3
+      },
+
       "detector_dimensions": {
         "__comment": "units in mm",
 
