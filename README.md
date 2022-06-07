@@ -7,13 +7,16 @@
 # Setup
 
 ```
+git submodule init
+git submodule update --init --recursive
+
 cd /sim
 mkdir build
 cd build
 cmake ..
 cmake --build .
 ```
-
+---
 # Start simulation
 
 ```
