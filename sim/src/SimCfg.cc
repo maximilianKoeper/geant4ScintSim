@@ -12,6 +12,7 @@ SimCfg* SimCfg::instance = nullptr;
 SimCfg::SimCfg(const std::string& filename) {
   std::ifstream i(filename.c_str());
   i >> cfg;
+  i.close();
 }
 
 int SimCfg::get(const std::string& name){

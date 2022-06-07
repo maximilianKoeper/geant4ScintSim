@@ -23,6 +23,7 @@
 //#include "FTFP_BERT.hh"
 
 #include "SimCfg.hh"
+#include "IOManager.hh"
 
 #include <boost/program_options.hpp>
 
@@ -73,6 +74,9 @@ int main(int argc,char** argv)
     config_filename = "../config/config.json";
   }
   SimCfg & config = SimCfg::Instance(config_filename);
+
+  //std::string out_filename = "out.json";
+  IOManager & ioManager = IOManager::Instance("out.json");
   // -----------------------------------------------------
 
   // Detect interactive mode and define UI session

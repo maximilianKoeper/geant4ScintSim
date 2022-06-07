@@ -15,6 +15,8 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 
+#include "IOManager.hh"
+
 namespace sim
 {
 
@@ -91,6 +93,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
   // Print
   //
   if (IsMaster()) {
+    IOManager::Instance().WriteOut();
     G4cout
      << G4endl
      << "--------------------End of Global Run-----------------------";

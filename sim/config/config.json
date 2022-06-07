@@ -9,7 +9,7 @@
       "absorber_options": {
         "__comment": "units in mm",
 
-        "present": 0,
+        "present": 1,
         "dimZ": 3
       },
 

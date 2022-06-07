@@ -18,6 +18,8 @@
 
 #include "SimCfg.hh"
 
+#include "IOManager.hh"
+
 
 TileDetectorConstruction::TileDetectorConstruction(G4LogicalVolume * _mother){
   mother=_mother;
@@ -32,6 +34,9 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
 
   // Get config manager
   SimCfg & config = SimCfg::Instance();
+
+  // Get IOManager
+  IOManager & ioManager = IOManager::Instance();
 
   G4bool checkOverlaps = config.get("/geom_options/checkOverlaps");
 
@@ -111,6 +116,13 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
                         false,                  //no boolean operation
                         nTileVolume,            //copy number
                         checkOverlaps);         //overlaps checking
+
+      char integer_string[33];
+      std::sprintf(integer_string, "%d", nTileVolume);
+      ioManager.data_json["geometry"]["tiles"][integer_string]["posX"] = posCurrent[0];
+      ioManager.data_json["geometry"]["tiles"][integer_string]["posY"] = posCurrent[1];
+      ioManager.data_json["geometry"]["tiles"][integer_string]["posZ"] = posCurrent[2];
+
       nTileVolume += 1;
     }
   }
