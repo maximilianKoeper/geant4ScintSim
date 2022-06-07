@@ -45,4 +45,8 @@ CTestTestfile.cmake
 _deps
 
 #
-/sim/build/*
+build/
+.idea/
+
+__pycache__/
+.ipynb_checkpoints/
