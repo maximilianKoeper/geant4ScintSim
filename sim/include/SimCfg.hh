@@ -6,7 +6,7 @@
 #define SimCfg_h 1
 
 #include "globals.hh"
-#include <../utils/json.hpp>
+#include <nlohmann/json.hpp>
 
 
 //using json = nlohmann::json;

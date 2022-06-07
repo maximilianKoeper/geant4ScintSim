@@ -15,6 +15,7 @@ else()
   find_package(Geant4 REQUIRED)
 endif()
 
+#----------------------------------------------------------------------------
 find_package( Boost COMPONENTS program_options REQUIRED )
 include_directories( ${Boost_INCLUDE_DIR} )
 
@@ -24,6 +25,19 @@ include_directories( ${Boost_INCLUDE_DIR} )
 #
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/include)
+
+#----------------------------------------------------------------------------
+# If you only include this third party in PRIVATE source files, you do not need to install it
+# when your main project gets installed.
+#include(FetchContent)
+
+#FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz)
+#FetchContent_MakeAvailable(json)
+set(JSON_Install OFF CACHE INTERNAL "")
+
+add_subdirectory(./3rdparty/json)
+
+
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -36,7 +50,8 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(Sim sim.cc ${sources} ${headers})
-target_link_libraries(Sim ${Geant4_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(Sim PRIVATE ${Geant4_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(Sim PRIVATE nlohmann_json::nlohmann_json)
 set_target_properties(Sim PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON

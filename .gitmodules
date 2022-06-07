@@ -1,0 +1,4 @@
+[submodule "sim/3rdparty/json"]
+	path = sim/3rdparty/json
+	url = https://github.com/nlohmann/json.git
+	shallow = true
