@@ -6,6 +6,7 @@
 #define SDTile_h 1
 
 #include "G4VSensitiveDetector.hh"
+#include <map>
 
 
 class SDTile : public G4VSensitiveDetector{
@@ -25,6 +26,8 @@ class SDTile : public G4VSensitiveDetector{
   private:
     G4int collectionID;
     G4double edep_acc = 0.;
+
+    std::map<int, double> energy_distr;
 
 };
 

@@ -46,6 +46,7 @@ int main(int argc,char** argv)
     desc.add_options()
         ("help", "produce help message")
         ("vis", "interactive mode")
+        ("mac", po::value<std::string>(), "macro file")
         ("version", "simulation version information")
         ("config", po::value<std::string>(), "input configuration file")
   ;
@@ -148,8 +149,14 @@ int main(int argc,char** argv)
   if ( ! ui ) {
     // batch mode
     G4String command = "/control/execute ";
-    G4String fileName = argv[1];
-    UImanager->ApplyCommand(command+fileName);
+    G4String fileName;
+    if (vm.count("mac")) {
+      fileName = vm["mac"].as<std::string>();
+      UImanager->ApplyCommand(command+fileName);
+    }
+    else{
+      G4cout << "ERROR -> No macro file specified" << G4endl;
+    }
   }
   else {
     // interactive mode

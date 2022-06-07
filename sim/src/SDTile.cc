@@ -4,8 +4,6 @@
 
 #include "SDTile.hh"
 #include "G4UnitsTable.hh"
-//#include <fstream>
-//#include <nlohmann/json.hpp>
 #include "G4RunManager.hh"
 
 #include "IOManager.hh"
@@ -20,6 +18,8 @@ SDTile::SDTile(const G4String SDname) : G4VSensitiveDetector(SDname){
 
 void SDTile::Initialize(G4HCofThisEvent* hce){
   edep_acc = 0;
+
+  energy_distr.clear();
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -32,6 +32,15 @@ G4bool SDTile::ProcessHits(G4Step *step, G4TouchableHistory *){
   edep_acc += edep;
 
   G4int copyNo = touchable->GetVolume(0)->GetCopyNo();
+
+  auto itr = energy_distr.find(copyNo);
+  if (itr != energy_distr.end()){
+       edep += (*itr).second;
+       (*itr).second = edep;
+  }
+  else{
+   energy_distr[copyNo] = edep;
+  }
   //G4cout << copyNo << " edep: " << G4BestUnit(edep,"Energy") << G4endl;
 
   return true;
@@ -48,6 +57,13 @@ void SDTile::EndOfEvent(G4HCofThisEvent*){
   char integer_string[33];
   std::sprintf(integer_string, "%d", G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
   ioManager.data_json["event"][integer_string]["edep"] = edep_acc;
+
+  for (auto const& [key, val] : energy_distr){
+    char key_str[33];
+    std::sprintf(key_str, "%d", key);
+    ioManager.data_json["event"][integer_string]["tileHitEdep"][key_str] = val;
+  }
+
 
   edep_acc = 0;
 

@@ -2,13 +2,12 @@
  * IOManager.hh
  */
 
+#ifndef IOManager_h
+#define IOManager_h 1
+
 #include "globals.hh"
 #include <fstream>
 #include <nlohmann/json.hpp>
-
-
-#ifndef IOManager_h
-#define IOManager_h 1
 
 class IOManager {
 
