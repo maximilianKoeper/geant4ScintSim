@@ -29,8 +29,7 @@ class SimCfg {
         return *instance;
     };
 
-    int get(const std::string& name);
-    int get(const char *name);
+
     double getDouble(const char *name);
     int getInt(const char *name);
 

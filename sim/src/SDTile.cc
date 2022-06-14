@@ -16,6 +16,11 @@ SDTile::SDTile(const G4String SDname) : G4VSensitiveDetector(SDname){
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+/**
+ * @brief Initializing sensitive detector and reset edep_acc and energy_distr map
+ * 
+ * @param hce 
+ */
 void SDTile::Initialize(G4HCofThisEvent* hce){
   edep_acc = 0;
 
@@ -24,6 +29,12 @@ void SDTile::Initialize(G4HCofThisEvent* hce){
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+/**
+ * @brief Proccesses hits in sensitive detector. Edep and tileID is saved to energy_distr map.
+ * 
+ * @param step 
+ * @return G4bool 
+ */
 G4bool SDTile::ProcessHits(G4Step *step, G4TouchableHistory *){
   G4TouchableHandle touchable = step->GetPreStepPoint()->GetTouchableHandle();
   G4double edep = step->GetTotalEnergyDeposit();
@@ -48,6 +59,10 @@ G4bool SDTile::ProcessHits(G4Step *step, G4TouchableHistory *){
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+/**
+ * @brief Pushes saved data (energy_distr map) to IOManager.
+ * 
+ */
 void SDTile::EndOfEvent(G4HCofThisEvent*){
   G4cout << "\n--------------------End of SD Event------------------------" << "\n";
   G4cout << "Total edep in Sensitive Detector Volume: " << G4BestUnit(edep_acc,"Energy") << "\n";

@@ -38,7 +38,7 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   // Get IOManager
   IOManager & ioManager = IOManager::Instance();
 
-  G4bool checkOverlaps = config.get("/geom_options/checkOverlaps");
+  G4bool checkOverlaps = config.getInt("/geom_options/checkOverlaps");
 
   // geometry variables
   G4int    nTilesX             = config.getInt("/geom_options/detector_dimensions/nTilesX");

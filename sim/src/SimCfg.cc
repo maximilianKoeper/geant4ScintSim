@@ -9,24 +9,41 @@
 
 SimCfg* SimCfg::instance = nullptr;
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+/**
+ * @brief Construct a new Sim Cfg:: Sim Cfg object
+ * 
+ * @param filename 
+ */
 SimCfg::SimCfg(const std::string& filename) {
   std::ifstream i(filename.c_str());
   i >> cfg;
   i.close();
 }
 
-int SimCfg::get(const std::string& name){
-  return cfg[nlohmann::json::json_pointer(name.c_str())].get<int>();
-}
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-int SimCfg::get(const char *name){
-  return cfg[nlohmann::json::json_pointer(name)].get<int>();
-}
-
+/**
+ * @brief Returns Value from config file
+ * 
+ * @param name 
+ * @return double 
+ */
 double SimCfg::getDouble(const char *name){
   return cfg[nlohmann::json::json_pointer(name)].get<double>();
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+/**
+ * @brief Returns Value from config file
+ * 
+ * @param name 
+ * @return int 
+ */
 int SimCfg::getInt(const char *name){
   return cfg[nlohmann::json::json_pointer(name)].get<int>();
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

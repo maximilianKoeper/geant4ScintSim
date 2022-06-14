@@ -108,7 +108,7 @@ int main(int argc,char** argv)
 
   // ----------------------------------
   // if scint_option is enabled
-  if (config.get("/sim_options/scint_option") == 1) {
+  if (config.getInt("/sim_options/scint_option") == 1) {
     G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
     auto opticalParams               = G4OpticalParameters::Instance();
 
