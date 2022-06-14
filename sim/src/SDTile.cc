@@ -38,7 +38,7 @@ void SDTile::Initialize(G4HCofThisEvent* hce){
 G4bool SDTile::ProcessHits(G4Step *step, G4TouchableHistory *){
   G4TouchableHandle touchable = step->GetPreStepPoint()->GetTouchableHandle();
   G4double edep = step->GetTotalEnergyDeposit();
-  if(edep == 0){return true;};
+  if(edep == 0.){return true;};
 
   edep_acc += edep;
 
@@ -69,17 +69,16 @@ void SDTile::EndOfEvent(G4HCofThisEvent*){
   G4cout << "-----------------------------------------------------------" << G4endl;
 
   IOManager & ioManager = IOManager::Instance();
-  char integer_string[33];
-  std::sprintf(integer_string, "%d", G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
-  ioManager.data_json["event"][integer_string]["edep"] = edep_acc;
+  int eventID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+  ioManager.data_json["event"][std::to_string(eventID)]["edep_detector"] = edep_acc;
 
   for (auto const& [key, val] : energy_distr){
-    char key_str[33];
-    std::sprintf(key_str, "%d", key);
-    ioManager.data_json["event"][integer_string]["tileHitEdep"][key_str] = val;
+    ioManager.data_json["event"][std::to_string(eventID)]["tileHitEdep"][std::to_string(key)] = val;
   }
 
-
   edep_acc = 0;
+  energy_distr.clear();
 
 };
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -30,3 +30,22 @@ void IOManager::WriteOut() {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void IOManager::CreateNewEvent(int eventID){
+  currentEventID = eventID;
+  return;
+}
+
+bool IOManager::CloseCurrentEvent(){
+  currentEventID = -1;
+  return true;
+}
+
+bool IOManager::AddEventInfo(const char *tag, double value){
+  data_json["event"][currentEventID][nlohmann::json::json_pointer(tag)] = value;
+  return true;
+}
+
+//bool AddEventEdep(int tileID, double edep){
+//  return true;
+//}

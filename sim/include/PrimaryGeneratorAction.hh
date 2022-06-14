@@ -33,6 +33,15 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   private:
     G4ParticleGun* fParticleGun = nullptr; // pointer a to G4 gun class
     G4Box* fEnvelopeBox = nullptr;
+    G4double maxEnergy = 0;
+
+    G4double pX = 0;
+    G4double pY = 0;
+    G4double pZ = 0;
+
+    G4double offsetX = 0;
+    G4double offsetY = 0;
+    G4double offsetZ = 0;
 };
 
 }

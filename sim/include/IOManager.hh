@@ -26,6 +26,10 @@ class IOManager {
    //void addEvent(nlohmann::json j){};
 
    void WriteOut();
+   void CreateNewEvent(int eventID);
+   bool CloseCurrentEvent();
+   bool AddEventInfo(const char *tag, double value);
+   //bool AddEventEdep(int tileID, double edep);
    nlohmann::json data_json;
 
  private:
@@ -33,6 +37,7 @@ class IOManager {
    IOManager(const std::string& filename);
 
    std::fstream outFile;
+   int currentEventID;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

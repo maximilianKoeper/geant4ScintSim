@@ -34,10 +34,19 @@
       "particle_gun_options": {
         "__comment": "units in mm and GeV",
 
-        "momentum": 2,
+        "momentum_max": 5,
+        "momentum_distr": 0,
+        "momentum_distr__comment": {
+          "uniform": 0
+        },
         "momentum_dir": {
           "x": 0,
-          "y": 0,
+          "y": 0.5,
+          "z": 1
+        },
+        "position_offset": {
+          "x": 0,
+          "y": -250,
           "z": 0
         }
 

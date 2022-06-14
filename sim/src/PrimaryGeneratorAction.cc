@@ -15,6 +15,7 @@
 #include "Randomize.hh"
 
 #include "SimCfg.hh"
+#include "IOManager.hh"
 
 namespace sim
 {
@@ -34,7 +35,18 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   fParticleGun->SetParticleDefinition(particle);
   //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
   // Get config manager
-  fParticleGun->SetParticleEnergy(SimCfg::Instance().getDouble("/geom_options/particle_gun_options/momentum")*GeV);
+  SimCfg & config = SimCfg::Instance();
+  maxEnergy = config.getDouble("/geom_options/particle_gun_options/momentum_max")*GeV;
+  pX = config.getDouble("/geom_options/particle_gun_options/momentum_dir/x");
+  pY = config.getDouble("/geom_options/particle_gun_options/momentum_dir/y");
+  pZ = config.getDouble("/geom_options/particle_gun_options/momentum_dir/z");
+
+  offsetX = config.getDouble("/geom_options/particle_gun_options/position_offset/x")*mm;
+  offsetY = config.getDouble("/geom_options/particle_gun_options/position_offset/y")*mm;
+  offsetZ = config.getDouble("/geom_options/particle_gun_options/position_offset/z")*mm;
+
+
+  fParticleGun->SetParticleEnergy(maxEnergy);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -82,15 +94,23 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   //G4double x0 = size * envSizeXY * (G4UniformRand()-0.5);
   //G4double y0 = size * envSizeXY * (G4UniformRand()-0.5);
   //G4double z0 = -0.5 * envSizeZ;
-  G4double x0 = 0;
-  G4double y0 = 0;
-  G4double z0 = -0.5 * envSizeZ;
+  G4double x0 = 0+offsetX;
+  G4double y0 = 0+offsetY;
+  G4double z0 = -0.5 * envSizeZ+offsetZ;
 
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector((G4UniformRand()-0.5)/3,
-                                                           (G4UniformRand()-0.5)/3,
-                                                           1.));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(pX,
+                                                           pY,
+                                                           pZ));
 
+  
+  G4double currentParticleEnergy = G4UniformRand()*maxEnergy;
+  fParticleGun->SetParticleEnergy(currentParticleEnergy);
+
+  IOManager & ioManager = IOManager::Instance();
+  int eventID = anEvent->GetEventID();
+  ioManager.data_json["event"][std::to_string(eventID)]["particle_energy"] = currentParticleEnergy;
+  
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 
