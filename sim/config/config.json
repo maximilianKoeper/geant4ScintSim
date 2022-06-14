@@ -34,7 +34,7 @@
       "particle_gun_options": {
         "__comment": "units in mm and GeV",
 
-        "momentum_max": 5,
+        "momentum_max": 5.0,
         "momentum_distr": 0,
         "momentum_distr__comment": {
           "uniform": 0

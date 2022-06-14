@@ -36,7 +36,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
   // Get config manager
   SimCfg & config = SimCfg::Instance();
-  maxEnergy = config.getDouble("/geom_options/particle_gun_options/momentum_max")*GeV;
+  maxEnergy = config.getDouble("/geom_options/particle_gun_options/momentum_max");
   pX = config.getDouble("/geom_options/particle_gun_options/momentum_dir/x");
   pY = config.getDouble("/geom_options/particle_gun_options/momentum_dir/y");
   pZ = config.getDouble("/geom_options/particle_gun_options/momentum_dir/z");
@@ -104,7 +104,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
                                                            pZ));
 
   
-  G4double currentParticleEnergy = G4UniformRand()*maxEnergy;
+  G4double currentParticleEnergy = G4UniformRand()*maxEnergy*GeV;
   fParticleGun->SetParticleEnergy(currentParticleEnergy);
 
   IOManager & ioManager = IOManager::Instance();
