@@ -27,7 +27,15 @@ CustomMaterial::CustomMaterial() {
 
     // -----------------------
     // WOLFRAM
-    WOLFRAM = nist->FindOrBuildMaterial("G4_W");
+    init("WOLFRAM", "G4_W");
+
+    // -----------------------
+    // ALUMINUM
+    init("ALUMINUM", "G4_Al");
+
+    // -----------------------
+    // LEAD
+    init("LEAD", "G4_Pb");
 
     // -----------------------
     // PCB Material - FR4

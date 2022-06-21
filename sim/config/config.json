@@ -10,11 +10,19 @@
         "__comment": "units in mm",
 
         "present": 1,
-        "dimZ": 3
+        "dimX": 150,
+        "dimY": 150,
+        "dimZ": 20,
+        "distance": 120,
+
+        "material": "LEAD",
+        "material__comment": ["LEAD", "WOLFRAM", "ALUMINUM"]
       },
 
       "detector_dimensions": {
         "__comment": "units in mm",
+        
+        "rotation": 70,
 
         "nTilesX": 80,
         "nTilesY": 80,
@@ -41,12 +49,12 @@
         },
         "momentum_dir": {
           "x": 0,
-          "y": 0.5,
+          "y": 0,
           "z": 1
         },
         "position_offset": {
           "x": 0,
-          "y": -250,
+          "y": 10,
           "z": 0
         }
 

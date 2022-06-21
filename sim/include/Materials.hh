@@ -47,6 +47,8 @@ class CustomMaterial {
     G4Material* SI;
     G4Material* PCB_FR4;
     G4Material* WOLFRAM;
+    G4Material* ALUMINUM;
+    G4Material* LEAD;
 
     G4MaterialPropertiesTable* lyso_mt;
 };

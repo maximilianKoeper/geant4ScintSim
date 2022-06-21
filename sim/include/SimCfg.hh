@@ -32,6 +32,7 @@ class SimCfg {
 
     double getDouble(const char *name);
     int getInt(const char *name);
+    std::string getString(const char *name);
 
   private:
     /// Protected constructor to ensure singleton nature

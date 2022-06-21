@@ -82,7 +82,9 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
                        materials.VAKUUM,          //its material
                        "logicalTileDetector");           //its name
 
-  auto physicalTileDetector = new G4PVPlacement(0,                      //no rotation
+  G4RotationMatrix* rm = new G4RotationMatrix();
+  rm->rotateX(config.getDouble("/geom_options/detector_dimensions/rotation")*deg);
+  auto physicalTileDetector = new G4PVPlacement(rm,                      //no rotation
                                                 pos1,                   //at position
                                                 logicalTileDetector,    //its logical volume
                                                 "logicalTileDetector",  //its name

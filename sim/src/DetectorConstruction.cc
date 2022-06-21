@@ -105,13 +105,18 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   if (config.getInt("/geom_options/absorber_options/present") != 0){
     G4Box* absorberShape =
     new G4Box("Absorber",                    //its name
-    env_sizeXY/2, env_sizeXY/2, config.getDouble("/geom_options/absorber_options/dimZ")*mm); //its size
+              config.getDouble("/geom_options/absorber_options/dimX")/2*mm, 
+              config.getDouble("/geom_options/absorber_options/dimY")/2*mm, 
+              config.getDouble("/geom_options/absorber_options/dimZ")/2*mm); //its size
+
+    G4Material* absorberMaterial = materials.get(config.getString("/geom_options/absorber_options/material"));
 
     absorber = new G4LogicalVolume(absorberShape,            //its solid
-                        materials.WOLFRAM,             //its material
+                        absorberMaterial,             //its material
                         "Absorber");         //its name
-    new G4PVPlacement(0,                       //no rotation
-                      G4ThreeVector(0,0,-3*cm),         //at (0,0,0)
+    
+    new G4PVPlacement(0,                       // rotation
+                      G4ThreeVector(0,0,-config.getDouble("/geom_options/absorber_options/distance")*mm),         //at (0,0,0)
                       absorber,                //its logical volume
                       "Absorber",              //its name
                       logicDetector,              //its mother  volume
