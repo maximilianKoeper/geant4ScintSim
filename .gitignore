@@ -50,5 +50,3 @@ build/
 
 __pycache__/
 .ipynb_checkpoints/
-
-analysis/jupyter-notebooks/* linguist-vendored=true
