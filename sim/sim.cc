@@ -78,6 +78,7 @@ int main(int argc,char** argv)
 
   //std::string out_filename = "out.json";
   IOManager & ioManager = IOManager::Instance("out.json");
+  ioManager.data_json["config"] = config.getCfg();
   // -----------------------------------------------------
 
   // Detect interactive mode and define UI session

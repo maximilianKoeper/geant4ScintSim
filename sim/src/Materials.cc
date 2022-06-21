@@ -19,11 +19,11 @@ CustomMaterial::CustomMaterial() {
 
     // -----------------------
     // VAKUUM
-    VAKUUM = nist->FindOrBuildMaterial("G4_Galactic");
+    init("VAKUUM", "G4_Galactic");
 
     // -----------------------
     // Si
-    SI = nist->FindOrBuildMaterial("G4_Si");
+    init("SI", "G4_Si");
 
     // -----------------------
     // WOLFRAM
@@ -39,7 +39,7 @@ CustomMaterial::CustomMaterial() {
 
     // -----------------------
     // PCB Material - FR4
-    //Epoxy (for FR4 )
+    // Epoxy (for FR4 )
     G4double Epoxy_density = 1.2*g/cm3;
     G4Material* Epoxy = new G4Material("Epoxy" , Epoxy_density, 2);
     Epoxy->AddElement(nist->FindOrBuildElement("H"), 2);
@@ -53,6 +53,8 @@ CustomMaterial::CustomMaterial() {
     PCB_FR4 = new G4Material("FR4" , FR4_density, 2);
     PCB_FR4->AddMaterial(Epoxy, 0.472);
     PCB_FR4->AddMaterial(SiO2, 0.528);
+
+    lut["PCB_FR4"] = PCB_FR4;
 
     // -----------------------
     // LYSO
@@ -79,6 +81,8 @@ CustomMaterial::CustomMaterial() {
     lyso_mt->AddConstProperty("SCINTILLATIONTIMECONSTANT1", 41.*ns);
     lyso_mt->AddConstProperty("SCINTILLATIONYIELD1", 1.0);
     LYSO->SetMaterialPropertiesTable(lyso_mt);
+
+    lut["LYSO"] = LYSO;
 
 };
 

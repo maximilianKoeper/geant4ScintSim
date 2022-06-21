@@ -36,9 +36,9 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   SimCfg & config = SimCfg::Instance();
 
   // Get IOManager
-  IOManager & ioManager = IOManager::Instance();
+  // IOManager & ioManager = IOManager::Instance();
 
-  G4bool checkOverlaps = config.getInt("/geom_options/checkOverlaps");
+  G4bool checkOverlaps = config.getBool("/geom_options/checkOverlaps");
 
   // geometry variables
   G4int    nTilesX             = config.getInt("/geom_options/detector_dimensions/nTilesX");
@@ -79,7 +79,7 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   G4VSolid* TileDetectorShape = new G4Box("logicalTileDetectorShape", dimX, dimY, dimZ); //its size
 
   logicalTileDetector = new G4LogicalVolume(TileDetectorShape,         //its solid
-                       materials.VAKUUM,          //its material
+                       materials.get("VAKUUM"),          //its material
                        "logicalTileDetector");           //its name
 
   G4RotationMatrix* rm = new G4RotationMatrix();
@@ -100,7 +100,7 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   //
   G4VSolid* TileShape = new G4Box("tileShape", TileDimX/2, TileDimY/2, TileDimZ/2);
 
-  logicalTiles = new G4LogicalVolume(TileShape , materials.LYSO, "TileEnvelope");
+  logicalTiles = new G4LogicalVolume(TileShape , materials.get("LYSO"), "TileEnvelope");
 
   G4ThreeVector posCurrent =  G4ThreeVector(0., 0., 0.);
   G4int nTileVolume = 0;
@@ -119,11 +119,11 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
                         nTileVolume,            //copy number
                         checkOverlaps);         //overlaps checking
 
-      char integer_string[33];
-      std::sprintf(integer_string, "%d", nTileVolume);
-      ioManager.data_json["geometry"]["tiles"][integer_string]["posX"] = posCurrent[0];
-      ioManager.data_json["geometry"]["tiles"][integer_string]["posY"] = posCurrent[1];
-      ioManager.data_json["geometry"]["tiles"][integer_string]["posZ"] = posCurrent[2];
+      //char integer_string[33];
+      //std::sprintf(integer_string, "%d", nTileVolume);
+      //ioManager.data_json["geometry"]["tiles"][integer_string]["posX"] = posCurrent[0];
+      //ioManager.data_json["geometry"]["tiles"][integer_string]["posY"] = posCurrent[1];
+      //ioManager.data_json["geometry"]["tiles"][integer_string]["posZ"] = posCurrent[2];
 
       nTileVolume += 1;
     }
@@ -134,7 +134,7 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   //
   G4VSolid* SIPMShape = new G4Box("SIPMShape", SipmX/2, SipmY/2, SipmZ/2);
 
-  logicalSIPM = new G4LogicalVolume(SIPMShape, materials.SI, "SIPMLogical");
+  logicalSIPM = new G4LogicalVolume(SIPMShape, materials.get("SI"), "SIPMLogical");
 
   posCurrent =  G4ThreeVector(0., 0., 0.);
   G4int nSIPMVolume = 0;
@@ -162,7 +162,7 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
 
   G4VSolid* PCBShape = new G4Box("PCBShape", dimX, dimX, PcbZ/2);
 
-  logicalPCB = new G4LogicalVolume(PCBShape , materials.PCB_FR4, "PCBLogical");
+  logicalPCB = new G4LogicalVolume(PCBShape , materials.get("PCB_FR4"), "PCBLogical");
   new G4PVPlacement(0,                      //no rotation
                     G4ThreeVector(0., 0., dimZ-PcbZ/2),    //at position
                     logicalPCB,             //its logical volume

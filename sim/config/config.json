@@ -4,23 +4,23 @@
     },
 
     "geom_options": {
-      "checkOverlaps": 0,
+      "checkOverlaps": true,
 
       "absorber_options": {
-        "__comment": "units in mm",
+        "__comment__": "units in mm",
 
         "present": 1,
         "dimX": 150,
         "dimY": 150,
-        "dimZ": 20,
+        "dimZ": 15,
         "distance": 120,
 
         "material": "LEAD",
-        "material__comment": ["LEAD", "WOLFRAM", "ALUMINUM"]
+        "_material__comment": ["LEAD", "WOLFRAM", "ALUMINUM"]
       },
 
       "detector_dimensions": {
-        "__comment": "units in mm",
+        "__comment__": "units in mm",
         
         "rotation": 70,
 
@@ -40,11 +40,11 @@
       },
 
       "particle_gun_options": {
-        "__comment": "units in mm and GeV",
+        "__comment__": "units in mm and GeV",
 
         "momentum_max": 5.0,
         "momentum_distr": 0,
-        "momentum_distr__comment": {
+        "_momentum_distr__comment__": {
           "uniform": 0
         },
         "momentum_dir": {
@@ -65,8 +65,8 @@
     	"todo": 0
     },
 
-    "log_options": {
-    	"log_level": 0
+    "verbose_options": {
+    	"SDTile": false
     }
 
 }

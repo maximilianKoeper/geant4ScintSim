@@ -57,3 +57,15 @@ int SimCfg::getInt(const char *name){
 std::string SimCfg::getString(const char *name){
   return cfg[nlohmann::json::json_pointer(name)].get<std::string>();
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+/**
+ * @brief Returns Value from config file
+ * 
+ * @param name 
+ * @return bool 
+ */
+bool SimCfg::getBool(const char *name){
+  return cfg[nlohmann::json::json_pointer(name)].get<bool>();
+}

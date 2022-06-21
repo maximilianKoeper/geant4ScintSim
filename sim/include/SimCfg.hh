@@ -33,6 +33,9 @@ class SimCfg {
     double getDouble(const char *name);
     int getInt(const char *name);
     std::string getString(const char *name);
+    bool getBool(const char *name);
+
+    nlohmann::json getCfg(){return cfg;};
 
   private:
     /// Protected constructor to ensure singleton nature

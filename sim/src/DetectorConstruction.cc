@@ -48,18 +48,18 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Envelope parameters
   //
   G4double env_sizeXY = 100*cm, env_sizeZ = 50*cm;
-  G4Material* env_mat = materials.VAKUUM;
+  G4Material* env_mat = materials.get("VAKUUM");
 
   // Option to switch on/off checking of volumes overlaps
   //
-  G4bool checkOverlaps = true;
+  G4bool checkOverlaps = config.getBool("/geom_options/checkOverlaps");
 
   //
   // World
   //
   G4double world_sizeXY = 1.2*env_sizeXY;
   G4double world_sizeZ  = 1.2*env_sizeZ;
-  G4Material* world_mat = materials.VAKUUM;
+  G4Material* world_mat = materials.get("VAKUUM");
 
   G4Box* solidWorld =
     new G4Box("World",                       //its name

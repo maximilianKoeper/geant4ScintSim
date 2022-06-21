@@ -27,6 +27,8 @@ class SDTile : public G4VSensitiveDetector{
     G4int collectionID;
     G4double edep_acc = 0.;
 
+    G4bool verbose;
+
     std::map<int, double> energy_distr;
 
 };

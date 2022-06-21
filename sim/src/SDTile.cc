@@ -8,10 +8,14 @@
 
 #include "IOManager.hh"
 
+#include "SimCfg.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SDTile::SDTile(const G4String SDname) : G4VSensitiveDetector(SDname){
-  //collectionName.insert("SDTile");
+  collectionName.insert("SDTile");
+  SimCfg & config = SimCfg::Instance();
+  verbose = config.getBool("/verbose_options/SDTile");
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -64,9 +68,11 @@ G4bool SDTile::ProcessHits(G4Step *step, G4TouchableHistory *){
  * 
  */
 void SDTile::EndOfEvent(G4HCofThisEvent*){
-  G4cout << "\n--------------------End of SD Event------------------------" << "\n";
-  G4cout << "Total edep in Sensitive Detector Volume: " << G4BestUnit(edep_acc,"Energy") << "\n";
-  G4cout << "-----------------------------------------------------------" << G4endl;
+  if (verbose){
+    G4cout << "\n--------------------End of SD Event------------------------" << "\n";
+    G4cout << "Total edep in Sensitive Detector Volume: " << G4BestUnit(edep_acc,"Energy") << "\n";
+    G4cout << "-----------------------------------------------------------" << G4endl;
+  }
 
   IOManager & ioManager = IOManager::Instance();
   int eventID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();

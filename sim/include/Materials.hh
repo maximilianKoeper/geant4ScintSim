@@ -32,6 +32,10 @@ class CustomMaterial {
 
     G4Material* init(const std::string& name, const G4String& g4name);
 
+    G4MaterialPropertiesTable* lyso_mt;
+    G4Material* LYSO;
+    G4Material* PCB_FR4;
+
   public:
     G4Material* get(const std::string& name) const {
         auto it = lut.find(name);
@@ -41,16 +45,6 @@ class CustomMaterial {
         }
         return it->second;
     }
-
-    G4Material* LYSO;
-    G4Material* VAKUUM;
-    G4Material* SI;
-    G4Material* PCB_FR4;
-    G4Material* WOLFRAM;
-    G4Material* ALUMINUM;
-    G4Material* LEAD;
-
-    G4MaterialPropertiesTable* lyso_mt;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
