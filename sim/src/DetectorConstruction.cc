@@ -102,7 +102,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     checkOverlaps);          //overlaps checking
 
   // Absorber
-  if (config.getInt("/geom_options/absorber_options/present") != 0){
+  if (config.getBool("/geom_options/absorber_options/present")){
     G4Box* absorberShape =
     new G4Box("Absorber",                    //its name
               config.getDouble("/geom_options/absorber_options/dimX")/2*mm, 
@@ -127,9 +127,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // Scint Block
   //
-  auto* TDC = new TileDetectorConstruction(logicDetector);
-  physicalDetector1 = TDC->Construct();
-  Tiles = TDC->logicalTiles;
+  auto* tileDetector = new TileDetectorConstruction(logicDetector);
+  tileDetector->Construct();
+  Tiles = tileDetector->logicalTiles;
 
   //
   //always return the physical World

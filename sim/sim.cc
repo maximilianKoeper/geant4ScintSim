@@ -27,10 +27,7 @@
 
 #include <boost/program_options.hpp>
 
-//#include <../utils/json.hpp>
-
 namespace po = boost::program_options;
-//using json = nlohmann::json;
 
 using namespace sim;
 
@@ -76,7 +73,8 @@ int main(int argc,char** argv)
   }
   SimCfg & config = SimCfg::Instance(config_filename);
 
-  //std::string out_filename = "out.json";
+  // -----------------------------------------------------
+  // Set up IOManager and copy config to IOManager
   IOManager & ioManager = IOManager::Instance("out.json");
   ioManager.data_json["config"] = config.getCfg();
   // -----------------------------------------------------
@@ -109,7 +107,7 @@ int main(int argc,char** argv)
 
   // ----------------------------------
   // if scint_option is enabled
-  if (config.getInt("/sim_options/scint_option") == 1) {
+  if (config.getBool("/sim_options/scint_option")) {
     G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
     auto opticalParams               = G4OpticalParameters::Instance();
 

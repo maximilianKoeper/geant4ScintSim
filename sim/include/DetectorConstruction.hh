@@ -27,10 +27,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
-  private:
-    G4LogicalVolume *logicDetector;
-    G4VPhysicalVolume* physicalDetector1;
-    G4LogicalVolume *Tiles;
+  protected:
+    G4LogicalVolume * logicDetector;
+    G4LogicalVolume * Tiles;
 
     G4LogicalVolume * absorber;
 

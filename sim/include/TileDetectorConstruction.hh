@@ -24,12 +24,12 @@ class TileDetectorConstruction {
       virtual ~TileDetectorConstruction();
 
       /// Create all the objects of the detector geometry
-      virtual G4VPhysicalVolume* Construct();
+      virtual G4LogicalVolume* Construct();
 
-      G4LogicalVolume * logicalTileDetector;
       G4LogicalVolume * logicalTiles;
       G4LogicalVolume * logicalPCB;
       G4LogicalVolume * logicalSIPM;
+      G4LogicalVolume * logicalTileDetector;
 
   protected:
       /// The tile detector logical volume

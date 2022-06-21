@@ -27,7 +27,7 @@ TileDetectorConstruction::TileDetectorConstruction(G4LogicalVolume * _mother){
 
 TileDetectorConstruction::~TileDetectorConstruction() {};
 
-G4VPhysicalVolume* TileDetectorConstruction::Construct(){
+G4LogicalVolume* TileDetectorConstruction::Construct(){
 
   // Get custom material manager
   CustomMaterial & materials = CustomMaterial::Instance();
@@ -79,28 +79,28 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
   G4VSolid* TileDetectorShape = new G4Box("logicalTileDetectorShape", dimX, dimY, dimZ); //its size
 
   logicalTileDetector = new G4LogicalVolume(TileDetectorShape,         //its solid
-                       materials.get("VAKUUM"),          //its material
+                       materials.get("LYSO"),          //its material
                        "logicalTileDetector");           //its name
 
   G4RotationMatrix* rm = new G4RotationMatrix();
   rm->rotateX(config.getDouble("/geom_options/detector_dimensions/rotation")*deg);
-  auto physicalTileDetector = new G4PVPlacement(rm,                      //no rotation
-                                                pos1,                   //at position
-                                                logicalTileDetector,    //its logical volume
-                                                "logicalTileDetector",  //its name
-                                                mother,                 //its mother  volume
-                                                false,                  //no boolean operation
-                                                0,                      //copy number
-                                                checkOverlaps);         //overlaps checking
+  new G4PVPlacement(rm,                      //no rotation
+                    pos1,                   //at position
+                    logicalTileDetector,    //its logical volume
+                    "logicalTileDetector",  //its name
+                    mother,                 //its mother  volume
+                    false,                  //no boolean operation
+                    0,                      //copy number
+                    checkOverlaps);         //overlaps checking
 
 
 
   //
   //  Tiles
   //
-  G4VSolid* TileShape = new G4Box("tileShape", TileDimX/2, TileDimY/2, TileDimZ/2);
-
-  logicalTiles = new G4LogicalVolume(TileShape , materials.get("LYSO"), "TileEnvelope");
+  G4VSolid* TileShape = new G4Box("TileSolid", TileDimX/2, TileDimY/2, TileDimZ/2);
+  
+  logicalTiles = new G4LogicalVolume(TileShape , materials.get("LYSO"), "LogicalTile");
 
   G4ThreeVector posCurrent =  G4ThreeVector(0., 0., 0.);
   G4int nTileVolume = 0;
@@ -172,5 +172,6 @@ G4VPhysicalVolume* TileDetectorConstruction::Construct(){
                     0,                      //copy number
                     checkOverlaps);         //overlaps checking
 
-  return physicalTileDetector;
+  return 0;
+
 };

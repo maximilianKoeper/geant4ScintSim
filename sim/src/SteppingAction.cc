@@ -35,7 +35,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
       ->GetVolume()->GetLogicalVolume();
 
   // check if we are in scoring volume
-  if (volume->GetName() != "TileEnvelope") {
+  if (volume->GetName() != "LogicalTile") {
     return;
   }
   //G4cout << G4BestUnit(volume->GetSolid()->GetCubicVolume(), "Volume") << G4endl;

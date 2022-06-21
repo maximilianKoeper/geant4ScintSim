@@ -18,6 +18,10 @@ CustomMaterial::CustomMaterial() {
     auto nist = G4NistManager::Instance();
 
     // -----------------------
+    // Air
+    init("AIR", "G4_AIR");
+
+    // -----------------------
     // VAKUUM
     init("VAKUUM", "G4_Galactic");
 
@@ -36,6 +40,10 @@ CustomMaterial::CustomMaterial() {
     // -----------------------
     // LEAD
     init("LEAD", "G4_Pb");
+
+    // -----------------------
+    // GRAPHITE
+    init("GRAPHITE", "G4_GRAPHITE");
 
     // -----------------------
     // PCB Material - FR4
@@ -61,7 +69,7 @@ CustomMaterial::CustomMaterial() {
     std::vector<G4String> LYSO_elements = { "Lu", "Y", "Si", "O" };
     std::vector<G4float> LYSO_fractionElements = { 0.714467891, 0.04033805, 0.063714272, 0.181479788};
     G4double LYSO_density = 7.36*g/cm3;
-    LYSO = new G4Material("LYSO",LYSO_density,4);
+    LYSO = new G4Material("LYSO",LYSO_density,4, kStateSolid);
 
     for (unsigned int index = 0; index < LYSO_elements.size(); ++index)
     {
