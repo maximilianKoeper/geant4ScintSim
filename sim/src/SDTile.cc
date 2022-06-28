@@ -71,6 +71,7 @@ void SDTile::EndOfEvent(G4HCofThisEvent*){
   if (verbose){
     G4cout << "\n--------------------End of SD Event------------------------" << "\n";
     G4cout << "Total edep in Sensitive Detector Volume: " << G4BestUnit(edep_acc,"Energy") << "\n";
+    //G4cout << " Thread ID:  " << G4Threading::G4GetThreadId()	<< "\n";
     G4cout << "-----------------------------------------------------------" << G4endl;
   }
 

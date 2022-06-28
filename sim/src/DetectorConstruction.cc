@@ -94,7 +94,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   new G4PVPlacement(0,                       //no rotation
                     G4ThreeVector(),         //at (0,0,0)
-                    logicDetector,                //its logical volume
+                    logicDetector,           //its logical volume
                     "Envelope",              //its name
                     logicWorld,              //its mother  volume
                     false,                   //no boolean operation
@@ -114,12 +114,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     absorber = new G4LogicalVolume(absorberShape,            //its solid
                         absorberMaterial,             //its material
                         "Absorber");         //its name
-    
-    new G4PVPlacement(0,                       // rotation
+
+    G4RotationMatrix* rm = new G4RotationMatrix();
+    rm->rotateX(config.getDouble("/geom_options/absorber_options/rotation")*deg);
+    new G4PVPlacement(rm,                       // rotation
                       G4ThreeVector(0,0,-config.getDouble("/geom_options/absorber_options/distance")*mm),         //at (0,0,0)
                       absorber,                //its logical volume
                       "Absorber",              //its name
-                      logicDetector,              //its mother  volume
+                      logicDetector,           //its mother  volume
                       false,                   //no boolean operation
                       0,                       //copy number
                       checkOverlaps);          //overlaps checking
@@ -130,6 +132,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   auto* tileDetector = new TileDetectorConstruction(logicDetector);
   tileDetector->Construct();
   Tiles = tileDetector->logicalTiles;
+  //G4RunManager::GetRunManager()->GeometryHasBeenModified();
 
   //
   //always return the physical World

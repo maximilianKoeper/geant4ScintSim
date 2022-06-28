@@ -16,7 +16,7 @@ class IOManager {
 
  public:
    static IOManager& Instance() {
-       return *instance;
+      return *instance;
    };
    static IOManager& Instance(const std::string& filename) {
        if(!instance) instance = new IOManager(filename);
@@ -29,15 +29,14 @@ class IOManager {
    void CreateNewEvent(int eventID);
    bool CloseCurrentEvent();
    bool AddEventInfo(const char *tag, double value);
-   //bool AddEventEdep(int tileID, double edep);
    nlohmann::json data_json;
 
  private:
-   /// Protected constructor to ensure singleton nature
-   IOManager(const std::string& filename);
+    /// Protected constructor to ensure singleton nature
+    IOManager(const std::string& filename);
 
-   std::fstream outFile;
-   int currentEventID;
+    std::fstream outFile;
+    int currentEventID;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -6,7 +6,8 @@
 #include "DetectorConstruction.hh"
 #include "ActionInitialization.hh"
 
-#include "G4RunManagerFactory.hh"
+//#include "G4RunManagerFactory.hh"
+#include "G4RunManager.hh"
 #include "G4SteppingVerbose.hh"
 #include "G4UImanager.hh"
 
@@ -93,8 +94,8 @@ int main(int argc,char** argv)
 
   // Construct the default run manager
   //
-  auto* runManager =
-    G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+  auto* runManager = new G4RunManager;
+    //G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 
   // Set mandatory initialization classes
   //
