@@ -10,10 +10,12 @@
         "__comment__": "units in mm",
 
         "present": true,
-        "dimX": 150,
-        "dimY": 150,
-        "dimZ": 5,
-        "distance": 120,
+        "dimX": 200,
+        "dimY": 200,
+        "dimZ": 20,
+        "distance": 30,
+
+        "rotation": 60,
 
         "material": "WOLFRAM",
         "_material__comment": ["LEAD", "WOLFRAM", "ALUMINUM", "GRAPHITE"]
@@ -22,7 +24,7 @@
       "detector_dimensions": {
         "__comment__": "units in mm",
         
-        "rotation": 70,
+        "rotation": 60,
 
         "nTilesX": 80,
         "nTilesY": 80,
@@ -66,7 +68,7 @@
     },
 
     "verbose_options": {
-    	"SDTile": true
+    	"SDTile": false
     }
 
 }

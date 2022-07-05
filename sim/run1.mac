@@ -3,4 +3,4 @@
 # Initialize kernel
 /run/initialize
 #
-/run/beamOn 60000
+/run/beamOn 10000

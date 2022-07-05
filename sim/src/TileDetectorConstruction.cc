@@ -106,8 +106,8 @@ G4LogicalVolume* TileDetectorConstruction::Construct(){
   G4int nTileVolume = 0;
   for(int i=0; i < nTilesX; i++){
     for(int j=0; j < nTilesY; j++){
-      posCurrent =  G4ThreeVector((TileDimX+TileGapX) * nTilesX/2 - (TileDimX+TileGapX) * (i+0.5),
-                                 (TileDimY+TileGapY) * nTilesY/2 - (TileDimY+TileGapY) * (j+0.5),
+      posCurrent =  G4ThreeVector((TileDimX+TileGapX) * nTilesX/2 - (TileDimX+TileGapX) * (j+0.5),
+                                 (TileDimY+TileGapY) * nTilesY/2 - (TileDimY+TileGapY) * (i+0.5),
                                  -(SipmZ+PcbZ)/2);
 
       new G4PVPlacement(0,                      //no rotation
