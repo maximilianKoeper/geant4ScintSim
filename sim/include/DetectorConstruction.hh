@@ -33,6 +33,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4LogicalVolume * absorber;
 
+    G4VPhysicalVolume * absorber_placement;
+
 
   protected:
     G4LogicalVolume* fScoringVolume = nullptr;

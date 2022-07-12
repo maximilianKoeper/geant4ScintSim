@@ -76,7 +76,9 @@ int main(int argc,char** argv)
 
   // -----------------------------------------------------
   // Set up IOManager and copy config to IOManager
-  IOManager & ioManager = IOManager::Instance("out.json");
+  std::string output_filename = config.getString("/output_options/folder");
+  output_filename += "output.json";
+  IOManager & ioManager = IOManager::Instance(output_filename);
   ioManager.data_json["config"] = config.getCfg();
   // -----------------------------------------------------
 

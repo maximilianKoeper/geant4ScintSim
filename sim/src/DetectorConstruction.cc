@@ -117,7 +117,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     G4RotationMatrix* rm = new G4RotationMatrix();
     rm->rotateX(config.getDouble("/geom_options/absorber_options/rotation")*deg);
-    new G4PVPlacement(rm,                       // rotation
+    absorber_placement = new G4PVPlacement(rm,                       // rotation
                       G4ThreeVector(0,0,-config.getDouble("/geom_options/absorber_options/distance")*mm),         //at (0,0,0)
                       absorber,                //its logical volume
                       "Absorber",              //its name
@@ -133,7 +133,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   tileDetector->Construct();
   Tiles = tileDetector->logicalTiles;
   //G4RunManager::GetRunManager()->GeometryHasBeenModified();
-
+  if (absorber_placement->CheckOverlaps() > 0){
+    G4cout << "Overlaps in absorber!" << G4endl;
+    exit (EXIT_FAILURE);
+  }
   //
   //always return the physical World
   //

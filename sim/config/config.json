@@ -15,7 +15,7 @@
         "dimZ": 20,
         "distance": 30,
 
-        "rotation": 60,
+        "rotation": 75,
 
         "material": "WOLFRAM",
         "_material__comment": ["LEAD", "WOLFRAM", "ALUMINUM", "GRAPHITE"]
@@ -24,7 +24,7 @@
       "detector_dimensions": {
         "__comment__": "units in mm",
         
-        "rotation": 60,
+        "rotation": 75,
 
         "nTilesX": 80,
         "nTilesY": 80,
@@ -64,7 +64,7 @@
     },
 
     "output_options": {
-    	"todo": 0
+    	"folder": "./output/"
     },
 
     "verbose_options": {
