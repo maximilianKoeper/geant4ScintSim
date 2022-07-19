@@ -133,9 +133,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   tileDetector->Construct();
   Tiles = tileDetector->logicalTiles;
   //G4RunManager::GetRunManager()->GeometryHasBeenModified();
-  if (absorber_placement->CheckOverlaps() > 0){
-    G4cout << "Overlaps in absorber!" << G4endl;
-    exit (EXIT_FAILURE);
+  if (config.getBool("/geom_options/absorber_options/present")){
+    if (absorber_placement->CheckOverlaps() > 0){
+      G4cout << "Overlaps in absorber!" << G4endl;
+      exit (EXIT_FAILURE);
+    }
   }
   //
   //always return the physical World

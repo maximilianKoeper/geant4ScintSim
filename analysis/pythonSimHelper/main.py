@@ -31,8 +31,8 @@ def plotEvent(eventId: int, data: dict) -> np.ndarray:
 ##############################################################################################################################
 
 def plotObservables(data: dict):
-    eparticle_data = data["eparticle"]
-    edep_data = data["edep"]
+    eparticle_data = np.array(data["eparticle"])
+    edep_data = np.array(data["edep"])
     meanspred_data = data["meanspred"]
     spreadfrommaxedep_data = data["spreadfrommaxedep"]
     meanspred_data_x = data["meanspred_x"]
@@ -40,7 +40,8 @@ def plotObservables(data: dict):
     numberofhits_data = data["numberofhits"]
 
 
-    H_edep, x_edges_edep, y_edges_edep = np.histogram2d(eparticle_data, edep_data, bins=100)
+    #H_edep, x_edges_edep, y_edges_edep = np.histogram2d(eparticle_data, edep_data, bins=100)
+    H_edep, x_edges_edep, y_edges_edep = np.histogram2d(eparticle_data, edep_data, bins=100)#, range=[[0,5000],[0, np.mean(edep_data)*3]])
     H_spreadFromMean, x_edges_SFMean, y_edges_SFMean = np.histogram2d(eparticle_data, meanspred_data, bins=100)
     H_spreadFromMax, x_edges_SFMax, y_edges_SFMax = np.histogram2d(eparticle_data, spreadfrommaxedep_data, bins=100)
     H_spreadX, x_edges_SX, y_edges_SX = np.histogram2d(eparticle_data, meanspred_data_x, bins=100)
@@ -195,3 +196,83 @@ def calcObservables(data: dict) -> dict:
     print("Number of events with no energy deposition: ", counter_no_energy)
 
     return return_dict
+
+########################################################################################################################
+
+def calcObservablesReduced(data: dict) -> dict:
+    eparticle_data = []
+    edep_data = []
+    numberofhits_data=[]
+
+    counter_no_energy = 0
+
+    for eventid in data["event"]:
+        if "tileHitEdep" not in data["event"][str(eventid)].keys():
+            counter_no_energy += 1
+            # print("Event " + str(eventid) + " has no energy deposit")
+            continue            
+
+        edep_data.append(data["event"][str(eventid)]["edep_detector"])
+        eparticle_data.append(data["event"][str(eventid)]["particle_energy"])
+        numberofhits_data.append(len(data["event"][str(eventid)]["tileHitEdep"]))
+
+        return_dict = {"edep": edep_data, "eparticle": eparticle_data, "numberofhits": numberofhits_data}
+
+    print("Number of events with no energy deposition: ", counter_no_energy)
+
+    return return_dict
+
+def plotSigmaOverObs(data: dict) -> dict:
+    eparticle_data = np.array(data["eparticle"])
+    edep_data = np.array(data["edep"])
+    numberofhits_data = np.array(data["numberofhits"])
+
+
+    H_edep, x_edges_edep, y_edges_edep = np.histogram2d(eparticle_data, edep_data, bins=100, range=[[0,5000],[0, np.mean(edep_data)*3]])
+    H_NHits, x_edges_NHits, y_edges_NHits = np.histogram2d(eparticle_data, numberofhits_data, bins=100, range=[[0,5000],[0, np.mean(numberofhits_data)*3]])
+
+    ycenters = (y_edges_edep[:-1] + y_edges_edep[1:]) / 2
+    xcenters = (x_edges_edep[:-1] + x_edges_edep[1:]) / 2
+
+    ycenters_NH = (y_edges_NHits[:-1] + y_edges_NHits[1:]) / 2
+    xcenters_NH = (x_edges_NHits[:-1] + x_edges_NHits[1:]) / 2
+
+    sigmaOEnergy = []
+    for i in range(len(H_edep.T[0])):
+        mean = np.average(ycenters, weights=H_edep[i])
+        var = np.average((ycenters - mean)**2, weights=H_edep[i])
+        sig = np.sqrt(var)
+        
+        sigOEnergy = sig/sum(H_edep[i])
+        sigmaOEnergy.append(sigOEnergy)
+        
+    sigmaONHits = []
+    for i in range(len(H_NHits.T[0])):
+        mean = np.average(ycenters_NH, weights=H_NHits[i])
+        var = np.average((ycenters_NH - mean)**2, weights=H_NHits[i])
+        sig = np.sqrt(var)
+        
+        sigOHits = sig/sum(H_NHits[i])
+        sigmaONHits.append(sigOHits)
+        
+    f_size = 15
+
+    fig, axs = plt.subplots(2, figsize=(8, 8))
+
+    ##############
+    ax = axs[0]
+    plot = ax.plot(xcenters, sigmaOEnergy)
+
+    ax.set_title("$\sigma_E$ over $E_{dep}$", fontsize=f_size)
+    ax.set_ylabel("$\sigma_E / E$", fontsize=f_size)
+    ax.set_xlabel("particle energy [MeV]", fontsize=f_size)
+
+    ax = axs[1]
+    plot = ax.plot(xcenters_NH, sigmaONHits)
+
+    ax.set_title("sigma_N over N", fontsize=f_size)
+    ax.set_ylabel("$\sigma_N / N$", fontsize=f_size)
+    ax.set_xlabel("particle energy [MeV]", fontsize=f_size)
+    plt.tight_layout()
+
+    plt.show()
